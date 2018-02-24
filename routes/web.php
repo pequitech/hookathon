@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'bins'], function(){
+    Route::get('', 'BinController@index')->name('bins.index');
+    Route::get('create', 'BinController@create')->name('bins.create');
+    Route::post('store', 'BinController@store')->name('bins.store');
+    Route::get('{bin}', 'BinController@show')->name('bins.show');
+    Route::get('{bin}/edit', 'BinController@edit')->name('bins.edit');
+    Route::put('{bin}', 'BinController@update')->name('bins.update');
+    Route::get('{bin}/delete', 'BinController@destroy')->name('bins.destroy');
+});

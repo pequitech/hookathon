@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // RELATIONSHIP
+
+    public function bins(){
+        return $this->hasMany(\App\Bin::class);
+    }
 }
