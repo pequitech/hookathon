@@ -12,7 +12,13 @@ class Bin extends Model
 
     // RELATIONSHIPS
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(\App\User::class);
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(\App\Request::class);
     }
 }

@@ -13,30 +13,35 @@
 
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('bins.create') }}">New bin</a>
+            <a href="{{ route('bins.create') }}" class="btn btn-primary">New bin</a>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Bins</div>
                 <table class="table table-striped">
-                    @foreach( $bins as $bin )
+                    <thead>
                         <tr>
-                            <td>{{ $bin->name }}</td>
-                            <td>{{ $bin->id }}</td>
-                            <td>
-                                <a href="{{ route('bins.edit', ['bin' => $bin]) }}">Edit</a>
-                            </td>
-                            <td>
-                                <a href="{{ route('bins.show', ['bin' => $bin]) }}">Show</a>
-                            </td>
-                            <td>
-                                <a href="{{ route('bins.destroy', ['bin' => $bin]) }}">Delete</a>
-                            </td>
+                            <th>Name</th>
+                            <th>URL</th>
+                            <th>Requests</th>
+                            <th>Details</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody>
+                        @foreach( $bins as $bin )
+                            <tr>
+                                <td>{{ $bin->name }}</td>
+                                <td>{{ $bin->uid }}</td>
+                                <td>{{ $bin->requests()->count() }}</td>
+                                <td>
+                                    <a href="{{ route('bins.show', ['bin' => $bin]) }}" class="btn btn-primary">Show</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
                 <div class="card-footer">
                     {{ $bins->links() }}

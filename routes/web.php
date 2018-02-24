@@ -5,7 +5,7 @@
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| Here is where you can register web routes for your applition. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
@@ -27,4 +27,5 @@ Route::group(['prefix' => 'bins'], function(){
     Route::get('{bin}/edit', 'BinController@edit')->name('bins.edit');
     Route::put('{bin}', 'BinController@update')->name('bins.update');
     Route::get('{bin}/delete', 'BinController@destroy')->name('bins.destroy');
+    Route::any('{uid}/listen', 'BinController@listen')->name('bins.listen');
 });

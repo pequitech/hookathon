@@ -43,7 +43,7 @@ class BinController extends Controller
           "name" => $request->name,
           "email" => $request->email,
           "password" => $request->password,
-          "uid"=> md5(rand() . \Carbon\Carbon::now()),
+          "uid"=> \Carbon\Carbon::now()->format('U') . rand(),
           "user_id"=> $request->user()->id
         ]);
 
@@ -99,5 +99,24 @@ class BinController extends Controller
         //
         $bin->delete();
         return redirect()->route('bins.index');
+    }
+
+    public function listen(Request $request, $uid)
+    {
+        $header = json_encode($request->headers->all());
+        $body = json_encode($request->all());
+
+        //dd($request->all());
+
+        $bin = Bin::where('uid', $uid)->first();
+
+        $newRequest = \App\Request::create([
+            'uid' => \Carbon\Carbon::now()->format('U'),
+            'bin_id' => $bin->id,
+            'header' => $header,
+            'body'  => $body
+        ]);
+
+        dd($newRequest);
     }
 }
