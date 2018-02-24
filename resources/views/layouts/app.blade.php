@@ -12,6 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style media="screen">
+        .row {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

@@ -34,7 +34,9 @@
                         @foreach( $bins as $bin )
                             <tr>
                                 <td>{{ $bin->name }}</td>
-                                <td>{{ $bin->uid }}</td>
+                                <td>
+                                    <code>{{ route('bins.listen', ['uid' => $bin->uid]) }}</code>
+                                </td>
                                 <td>{{ $bin->requests()->count() }}</td>
                                 <td>
                                     <a href="{{ route('bins.show', ['bin' => $bin]) }}" class="btn btn-primary">Show</a>

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Request;
-use Illuminate\Http\Request;
+
 
 class RequestController extends Controller
 {
@@ -33,7 +32,7 @@ class RequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\App\Request $request)
     {
         //
     }
@@ -44,7 +43,7 @@ class RequestController extends Controller
      * @param  \App\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(\App\Request $request)
     {
         //
     }
@@ -55,7 +54,7 @@ class RequestController extends Controller
      * @param  \App\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(\App\Request $request)
     {
         //
     }
@@ -67,7 +66,7 @@ class RequestController extends Controller
      * @param  \App\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Request $request)
+    public function update(\Illuminate\Http\Request $request1, \App\Request $request2)
     {
         //
     }
@@ -78,8 +77,11 @@ class RequestController extends Controller
      * @param  \App\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(\App\Request $request)
     {
         //
+
+        $request->delete();
+        return redirect()->route('bins.show', ['bin' => $request->bin]);
     }
 }
