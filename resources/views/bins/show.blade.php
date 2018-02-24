@@ -56,6 +56,9 @@
                     <code>{{ gettype($r->body) }}</code>
                     <pre>{{ $r->body }}</pre>
                 </div>
+                <div class="card-footer">
+                    <input type="text" value="{{ route('requests.endpoint', ['uid' => $r->uid]) }}" class="form-control" readonly>
+                </div>
             </div>
         </div>
     </div>

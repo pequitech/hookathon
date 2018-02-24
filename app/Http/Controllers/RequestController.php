@@ -6,6 +6,10 @@ namespace App\Http\Controllers;
 
 class RequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => 'endpoint']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -79,9 +83,13 @@ class RequestController extends Controller
      */
     public function destroy(\App\Request $request)
     {
-        //
-
         $request->delete();
         return redirect()->route('bins.show', ['bin' => $request->bin]);
+    }
+
+    public function endpoint($uid)
+    {
+        $request = \App\Request::where('uid', $uid)->first();
+        return $request->body;
     }
 }

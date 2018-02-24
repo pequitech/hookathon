@@ -31,4 +31,5 @@ Route::group(['prefix' => 'bins'], function(){
 });
 Route::group(['prefix' => 'requests'], function(){
   Route::get('{request}/delete', 'RequestController@destroy')->name('requests.destroy');
+  Route::any('{request}/endpoint', 'RequestController@endpoint')->name('requests.endpoint');
 });
