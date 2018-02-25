@@ -34,7 +34,10 @@ Route::any('/bins/{uid}/listen', function(Request $request, $uid){
         $newRequest = \App\Request::create([
             'uid' => \Carbon\Carbon::now()->format('U'),
             'bin_id' => $bin->id,
-            'header' => json_encode($request->headers->all()),
+            'header' => [
+                'method' => $request->server->get('REQUEST_METHOD'),
+                'content_type' => $request->headers->get('content_type')
+            ],
             'body'  => json_encode($request->all())
         ]);
     } catch (\Exception $e) {
