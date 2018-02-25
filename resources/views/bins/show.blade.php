@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    @forelse($bin->requests as $r)
+    @forelse($bin->requests()->orderBy('created_at', 'DESC')->get() as $r)
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
