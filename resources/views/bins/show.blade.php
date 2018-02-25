@@ -52,15 +52,15 @@
                   <span style="float:left">{{ $r->created_at->diffForHumans() }}</span>
                   <a style="float:right" href="{{ route('requests.destroy', ['request' => $r, 'uid' => $bin->uid]) }}" class="text-danger">x</a>
                 </div>
-                <table class="table table-striped table-responsive">
+                <table class="table table-striped table-bordered" style="border-left:0; border-right: 0">
                     <tr>
-                        <th>Method</th>
-                        <td>{{ $r->header->method }}</td>
+                        <th style="border-left: 0px">Method</th>
+                        <td style="border-right: 0px">{{ $r->header['method'] }}</td>
                     </tr>
-                    @if($r->header->content_type)
+                    @if($r->header['content_type'])
                     <tr>
-                        <th>Content-Type</th>
-                        <td>{{ $r->header->content_type }}</td>
+                        <th style="border-left: 0px">Content-Type</th>
+                        <td style="border-right: 0px">{{ $r->header['content_type'] }}</td>
                     </tr>
                     @endif
                 </table>
