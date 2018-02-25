@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach( $bins as $bin )
+                        @forelse( $bins as $bin )
                             <tr>
                                 <td>{{ $bin->name }}</td>
                                 <td>
@@ -42,7 +42,11 @@
                                     <a href="{{ route('bins.show', ['bin' => $bin]) }}" class="btn btn-primary">Show</a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center">You don't have any bins created.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 <div class="card-footer">

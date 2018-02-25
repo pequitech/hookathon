@@ -21,4 +21,11 @@ class Bin extends Model
     {
         return $this->hasMany(\App\Request::class);
     }
+
+    // SCOPES
+
+    public function scopeLoggedUser($query, \App\User $user)
+    {
+        return $query->where('user_id', $user->id);
+    }
 }

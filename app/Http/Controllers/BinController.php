@@ -13,16 +13,16 @@ class BinController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'listen']);
+
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bins = Bin::paginate(50);
+        $bins = Bin::loggedUser($request->user())->paginate(50);
         return view('bins.index')->with(compact('bins'));
     }
 
@@ -63,10 +63,11 @@ class BinController extends Controller
      * @param  \App\Bin  $bin
      * @return \Illuminate\Http\Response
      */
-    public function show(Bin $bin)
+    public function show(Bin $bin, Request $request)
     {
         //
         return view("bins.show")->with(compact('bin'));
+
     }
 
     /**
@@ -75,9 +76,9 @@ class BinController extends Controller
      * @param  \App\Bin  $bin
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bin $bin)
+    public function edit(Bin $bin, Request $request)
     {
-        return view("bins.edit")->with(compact('bin'));
+      return view("bins.edit")->with(compact('bin'));
     }
 
     /**

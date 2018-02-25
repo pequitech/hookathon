@@ -20,13 +20,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'bins'], function(){
-    Route::get('', 'BinController@index')->name('bins.index');
-    Route::get('create', 'BinController@create')->name('bins.create');
-    Route::post('store', 'BinController@store')->name('bins.store');
-    Route::get('{bin}', 'BinController@show')->name('bins.show');
-    Route::get('{bin}/edit', 'BinController@edit')->name('bins.edit');
-    Route::put('{bin}', 'BinController@update')->name('bins.update');
-    Route::get('{bin}/delete', 'BinController@destroy')->name('bins.destroy');
+    Route::get('', 'BinController@index')->middleware('auth')->name('bins.index');
+    Route::get('create', 'BinController@create')->middleware('auth', 'binbelongstouser')->name('bins.create');
+    Route::post('store', 'BinController@store')->middleware('auth', 'binbelongstouser')->name('bins.store');
+    Route::get('{bin}', 'BinController@show')->middleware('auth', 'binbelongstouser')->name('bins.show');
+    Route::get('{bin}/edit', 'BinController@edit')->middleware('auth', 'binbelongstouser')->name('bins.edit');
+    Route::put('{bin}', 'BinController@update')->middleware('auth', 'binbelongstouser')->name('bins.update');
+    Route::get('{bin}/delete', 'BinController@destroy')->middleware('auth', 'binbelongstouser')->name('bins.destroy');
     Route::any('{uid}/listen', 'BinController@listen')->name('bins.listen');
 });
 Route::group(['prefix' => 'requests'], function(){
