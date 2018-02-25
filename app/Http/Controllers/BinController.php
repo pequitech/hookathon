@@ -109,29 +109,4 @@ class BinController extends Controller
         $bin->delete();
         return redirect()->route('bins.index');
     }
-
-    public function listen(Request $request, $uid)
-    {
-        $header = json_encode($request->headers->all());
-        $body = json_encode($request->all());
-
-        //dd($request->all());
-
-        $bin = Bin::where('uid', $uid)->first();
-
-        try {
-            //Esse código precisa de tratamento pois pode gerar alguma exceção
-            $newRequest = \App\Request::create([
-                'uid' => \Carbon\Carbon::now()->format('U'),
-                'bin_id' => $bin->id,
-                'header' => $header,
-                'body'  => $body
-            ]);
-        } catch (\Exception $e) {
-          return response('Fail!', 500)
-                    ->header('Content-Type', 'text/plain');
-        }
-        return response('OK!', 200)
-                  ->header('Content-Type', 'text/plain');
-    }
 }
