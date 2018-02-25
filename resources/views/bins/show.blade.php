@@ -29,8 +29,10 @@
                             <td>{{ $bin->name }}</td>
                         </tr>
                         <tr>
-                            <th>UID</th>
-                            <td>{{ $bin->uid }}</td>
+                            <th>URL</th>
+                            <td>
+                                <input type="text" value="{{ route('bins.listen', ['uid' => $bin->uid]) }}" class="form-control" readonly>
+                            </td>
                         </tr>
                         <tr>
                             <th>User</th>
@@ -63,6 +65,18 @@
         </div>
     </div>
     @empty
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <table class="table table-striped table-responsive">
+                </table>
+                <div class="card-body text-center">
+                    Oops, this bins have no requests yet. Send us a request on the following bin link:
+                    <code>{{ route('bins.listen', ['uid' => $bin->uid]) }}</code>
+                </div>
+            </div>
+        </div>
+    </div>
     @endforelse
 </div>
 @endsection

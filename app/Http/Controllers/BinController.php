@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class BinController extends Controller
 {
+    protected $rules = [
+        'name' => 'string|min:5|max:100'
+    ];
+
     public function __construct()
     {
         $this->middleware('auth', ['except' => 'listen']);
@@ -42,13 +46,12 @@ class BinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, $this->rules);
+
         $bin = Bin::create([
           "name" => $request->name,
-          "email" => $request->email,
-          "password" => $request->password,
-          "uid"=> \Carbon\Carbon::now()->format('U') . rand(),
-          "user_id"=> $request->user()->id
+          "user_id" => $request->user()->id,
+          "uid" => \Carbon\Carbon::now()->format('U') . rand()
         ]);
 
         return redirect()->route('bins.index');
@@ -86,7 +89,8 @@ class BinController extends Controller
      */
     public function update(Request $request, Bin $bin)
     {
-        //
+        $this->validate($request, $this->rules);
+
         $bin->update($request->all());
 
         return redirect()->route('bins.show', ['bin' => $bin]);
