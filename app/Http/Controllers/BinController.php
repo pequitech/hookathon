@@ -114,13 +114,19 @@ class BinController extends Controller
 
         $bin = Bin::where('uid', $uid)->first();
 
-        $newRequest = \App\Request::create([
-            'uid' => \Carbon\Carbon::now()->format('U'),
-            'bin_id' => $bin->id,
-            'header' => $header,
-            'body'  => $body
-        ]);
-
-        dd($newRequest);
+        try {
+            //Esse código precisa de tratamento pois pode gerar alguma exceção
+            $newRequest = \App\Request::create([
+                'uid' => \Carbon\Carbon::now()->format('U'),
+                'bin_id' => $bin->id,
+                'header' => $header,
+                'body'  => $body
+            ]);
+        } catch (\Exception $e) {
+          return response('Fail!', 500)
+                    ->header('Content-Type', 'text/plain');
+        }
+        return response('OK!', 200)
+                  ->header('Content-Type', 'text/plain');
     }
 }
