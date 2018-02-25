@@ -53,6 +53,16 @@
                   <a style="float:right" href="{{ route('requests.destroy', ['request' => $r, 'uid' => $bin->uid]) }}" class="text-danger">x</a>
                 </div>
                 <table class="table table-striped table-responsive">
+                    <tr>
+                        <th>Method</th>
+                        <td>{{ $r->header->method }}</td>
+                    </tr>
+                    @if($r->header->content_type)
+                    <tr>
+                        <th>Content-Type</th>
+                        <td>{{ $r->header->content_type }}</td>
+                    </tr>
+                    @endif
                 </table>
                 <div class="card-body">
                     <code>{{ gettype($r->body) }}</code>
