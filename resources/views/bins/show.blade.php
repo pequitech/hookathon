@@ -65,7 +65,6 @@
                     @endif
                 </table>
                 <div class="card-body">
-                    <code>{{ gettype($r->body) }}</code>
                     <pre>{{ $r->body }}</pre>
                 </div>
                 <div class="card-footer">
