@@ -13,38 +13,23 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
 });
 
+Route::group(['prefix' => 'bins'], function ($router) {
+    Route::any('/{uid}/listen', 'BinController@apiSaveRequests')->name('bins.listen');
 
-Route::get('/bins/{uid}/requests', function(Request $request, $uid){
-    $bin = \App\Bin::first();
-    return $bin->requests;
+    Route::group(['middleware' => 'api'], function ($router) {
+        Route::get('', 'BinController@apiGetBins');
+        Route::post('', 'BinController@apiStoreBin');
+        Route::get('{uid}', 'BinController@apiShowBin');
+        Route::put('{uid}', 'BinController@apiEditBin');
+        Route::delete('{uid}', 'BinController@apiDestroyBin');
+        Route::get('{uid}/requests', 'BinController@apiGetRequests');
+    });
 });
-
-Route::any('/bins/{uid}/listen', function(Request $request, $uid){
-    $bin = \App\Bin::where('uid', $uid)->first();
-    if(!$bin){
-        return response('Bin not found, create a bin to receive your requests on https://hookathon.co', 404);
-    }
-
-    try {
-        //Esse código precisa de tratamento pois pode gerar alguma exceção
-        $newRequest = \App\Request::create([
-            'uid' => \Carbon\Carbon::now()->format('U'),
-            'bin_id' => $bin->id,
-            'header' => [
-                'method' => $request->server->get('REQUEST_METHOD'),
-                'content_type' => $request->headers->get('content_type')
-            ],
-            'body'  => json_encode($request->all())
-        ]);
-    } catch (\Exception $e) {
-        return response('Fail!', 500)
-            ->header('Content-Type', 'text/plain');
-    }
-    return response('OK!', 200)
-        ->header('Content-Type', 'text/plain');
-
-})->name('bins.listen');

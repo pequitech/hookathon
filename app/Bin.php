@@ -9,6 +9,7 @@ class Bin extends Model
 {
     use SoftDeletes;
     protected $fillable = ["name","user_id","uid"];
+    protected $hidden = ['id'];
 
     // RELATIONSHIPS
 
@@ -27,5 +28,10 @@ class Bin extends Model
     public function scopeLoggedUser($query, \App\User $user)
     {
         return $query->where('user_id', $user->id);
+    }
+
+    public function scopeUid($query, $uid)
+    {
+        return $query->where('uid', $uid);
     }
 }

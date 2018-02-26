@@ -109,4 +109,120 @@ class BinController extends Controller
         $bin->delete();
         return redirect()->route('bins.index');
     }
+
+    public function apiSaveRequests(Request $request, $uid){
+        $bin = \App\Bin::uid($uid)->first();
+
+        if(!$bin){
+            return response('Bin not found, create a bin to receive your requests', 404);
+        }
+
+        try {
+            $newRequest = \App\Request::create([
+                'uid' => \Carbon\Carbon::now()->format('U'),
+                'bin_id' => $bin->id,
+                'header' => [
+                    'method' => $request->server->get('REQUEST_METHOD'),
+                    'content_type' => $request->headers->get('content_type')
+                ],
+                'body'  => json_encode($request->all())
+            ]);
+        } catch (\Exception $e) {
+            return response('Fail!', 500)
+                ->header('Content-Type', 'text/plain');
+        }
+        return response('OK!', 200)
+            ->header('Content-Type', 'text/plain');
+
+    }
+
+    public function apiGetRequests(Request $request, $uid){
+        $user = \JWTAuth::parseToken()->authenticate();
+        $bin = \App\Bin::uid($uid)->first();
+
+        if($bin){
+            return $bin->requests;
+        }
+
+        return response()->json([
+            'error' => 'Sorry, no bins found for this uid on your account.'
+        ], 404);
+    }
+
+    public function apiStoreBin(Request $request)
+    {
+        $this->validate($request, $this->rules);
+
+        $user =  \JWTAuth::parseToken()->authenticate();
+
+        $bin = Bin::create([
+          "name" => $request->name,
+          "user_id" => $user->id,
+          "uid" => \Carbon\Carbon::now()->format('U') . rand()
+        ]);
+
+        return $bin;
+    }
+
+    public function apiShowBin(Request $request, $uid)
+    {
+        $user =  \JWTAuth::parseToken()->authenticate();
+        $bin = \App\Bin::uid($uid)->loggedUser($user)->first();
+        if($bin){
+            return $bin;
+        }
+        return response()->json([
+            'error' => 'Sorry, no bins found for this uid on your account.'
+        ], 404);
+    }
+
+    public function apiGetBins(Request $request)
+    {
+        $user =  \JWTAuth::parseToken()->authenticate();
+        $bins = \App\Bin::loggedUser($user)->get();
+
+        return $bins ?? [];
+    }
+
+    public function apiEditBin(Request $request, $uid)
+    {
+        $this->validate($request, $this->rules);
+
+        $user =  \JWTAuth::parseToken()->authenticate();
+        $bin = Bin::uid($uid)->loggedUser($user)->first();
+
+        if(!$bin){
+            return response()->json([
+                'error' => 'Sorry, no bins found for this uid on your account.'
+            ], 404);
+        }
+
+        $bin->update([
+          "name" => $request->name,
+        ]);
+
+        return response()->json([
+            'message' => 'Bin updated with success.'
+        ],200);
+    }
+
+    public function apiDestroyBin(Request $request, $uid)
+    {
+        $this->validate($request, $this->rules);
+
+        $user =  \JWTAuth::parseToken()->authenticate();
+        $bin = Bin::uid($uid)->loggedUser($user)->first();
+
+        if(!$bin){
+            return response()->json([
+                'error' => 'Sorry, no bins found for this uid on your account.'
+            ], 404);
+        }
+
+        $bin->delete();
+
+        return response()->json([
+            'message' => 'Bin deleted with success.'
+        ],200);
+    }
 }
