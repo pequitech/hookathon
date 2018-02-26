@@ -14,3 +14,6 @@ We are constantly building our API to suit the community necessities, you can ch
 
 ### Desktop Client (alpha)
 Our engineers are working on a client that fetchs requests on your bin and automatically redirects them to a desired target host (yes you can choose anywhere), since the client runs on your machine you can redirect requests to localhosted environments out of the box. The desktop client is a separated project called (pequitech/Hookclient)[https://github.com/pequitech/hookclient]
+
+## License
+This project is ruled by [Creative Commons Attribution NonCommercial (CC-BY-NC)](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)) license. 
