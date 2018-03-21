@@ -33,7 +33,7 @@ class BinController extends Controller
      */
     public function create()
     {
-      // alteracao
+        // alteracao
         $bin = new Bin();
         return view("bins.create")->with(compact('bin'));
     }
