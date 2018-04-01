@@ -167,7 +167,7 @@ class BinController extends Controller
     public function apiShowBin(Request $request, $uid)
     {
         $user =  \JWTAuth::parseToken()->authenticate();
-        $bin = \App\Bin::uid($uid)->loggedUser($user)->first();
+        $bin = \App\Bin::uid($uid)->loggedUser($user)->with('requests')->first();
         if($bin){
             return $bin;
         }
